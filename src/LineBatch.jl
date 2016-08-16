@@ -1,5 +1,7 @@
 module LineBatch
 
+export StreamData
+
 import Base: start, next, done
 
 type StreamData
@@ -91,6 +93,9 @@ function createvocab(inputfile::AbstractString)
             words = split(line)
             for word in words; get!(vocabulary, word, 1+length(vocabulary));end
         end
+    end
+    if !("<unk>" in keys(vocabulary))
+        vocabulary["<unk>"] = 1 + length(vocabulary)
     end
     vocabulary["</s>"] = 1 + length(vocabulary)
     return vocabulary
